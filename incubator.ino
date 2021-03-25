@@ -7,13 +7,13 @@
 // stty -F /dev/ttyACM0 115200 cs8 cread clocal -hupcl time 30 && tee incubator.log </dev/ttyACM0
 
 #define WDT_TIMEOUT WDTO_8S // if defined, enable hardware watchdog
-#define DHTPIN 3 // data pin of the DHT T/H sensor
+#define DHTPIN 4 // data pin of the DHT T/H sensor
 #define T_OFFSET 0.0 // temperature sensor offset
 #define FAN_PIN 2 // fan speed signal pin
 #define FAN_THRES 500 // fan alarm threshold
-#define BEEPER A2 // pin where beeper is attached
-#define BRIGHTNESS 10 // display brightness pin
-#define HEATER A1 // heater MOSFET pin
+#define BEEPER 5 // pin where beeper is attached
+#define BRIGHTNESS 12 // display brightness pin
+#define HEATER 3 // heater MOSFET pin
 #define DELAY 2000 // loop delay in ms
 #define TS_ADDR 0 // temperature set point EEPROM address
 #define HS_ADDR 4 // humidity set point EEPROM address
@@ -35,7 +35,7 @@
 
 SoftwareServo vent;
 DHT dht(DHTPIN, DHT22);
-LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+LiquidCrystal lcd(6, 7, 8, 9, 10, 11);
 
 #define RIGHT 16
 #define UP 8
@@ -45,7 +45,7 @@ LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 #define NO_KEY 0
 
 byte getKey() {
-  int key = analogRead(0);
+  int key = analogRead(3);
   if (key < 50) {
     return RIGHT;
   } else if (key < 150) {
@@ -160,7 +160,7 @@ void setup() {
   dht.begin();
   vent.setMinimumPulse(800);
   vent.setMaximumPulse(2600);
-  vent.attach(11);
+  vent.attach(A1);
   
   Ts = read_float(TS_ADDR);
   if(!(0<Ts && Ts<50)) {
