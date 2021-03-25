@@ -231,7 +231,7 @@ void loop() {
       float dts = dt * 1e-3;
 
       if (dt > DELAY) {
-        fanrpm = fancount * 60 / dts;
+        fanrpm = fancount * 30 / dts;
         fancount = 0;
       }
 
